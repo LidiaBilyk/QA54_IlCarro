@@ -6,12 +6,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 class RegistrationPage:
     REGISTRATION_LINK = (By.CSS_SELECTOR, "[href='/register']")
-    FIRST_NAME_INPUT = (By.CSS_SELECTOR, '[name="firstName"]')
+    FIRST_NAME_INPUT = (By.CSS_SELECTOR, 'input[name="firstName"]')
     LAST_NAME_INPUT = (By.CSS_SELECTOR, "input[name='lastName']")
-    EMAIL_INPUT = (By.CSS_SELECTOR, '[name = "username"]')
-    PASSWORD_INPUT = (By.CSS_SELECTOR, '[name = "password"]')
+    EMAIL_INPUT = (By.CSS_SELECTOR, 'input[name = "username"]')
+    PASSWORD_INPUT = (By.CSS_SELECTOR, 'input[name = "password"]')
     TERM_OF_USE_CHECK_BOX = (By.ID, "terms-of-use")
-    BUTTON_REGISTRATION = (By.XPATH, "//button[text()='Y'alla!']")
+    BUTTON_REGISTRATION = (By.XPATH, "//button[text()='Y’alla!']")
+    LOG_OUT_BUTTON = (By.XPATH, "//button[text()='Log out']")
 
     def __init__(self, driver):
         self.driver = driver
@@ -35,30 +36,33 @@ class RegistrationPage:
         self.driver.find_element(*self.PASSWORD_INPUT).clear()
         self.driver.find_element(*self.PASSWORD_INPUT).send_keys(password)
 
-    def click_registration_button(self):
-        self.driver.find_element(*self.REGISTRATION_BUTTON).click()
-
     def click_policy(self):
-        self.driver.find_element(*self.TERM_OF_USE_CHECK_BOX).click() #13*13
+        self.driver.find_element(*self.TERM_OF_USE_CHECK_BOX).click()  #13*13()
+
+    def click_registration_button(self):
+        self.driver.find_element(*self.BUTTON_REGISTRATION).click()
+
+    def is_log_out_button_displayed(self):
+        self.driver.find_element(*self.LOG_OUT_BUTTON).is_displayed()
 
     # def is_sign_out_displayed(self):
     #     return self.driver.find_element(*self.SIGN_OUT_BUTTON).is_displayed()
 
-    def is_sign_out_displayed(self):
-        try:
-            WebDriverWait(self.driver, timeout = 10).until(
-                expected_conditions.visibility_of_element_located(self.SIGN_OUT_BUTTON)
-            )
-            return True
-        except TimeoutException:
-            return False
-
-
-    def get_alert_text(self):
-        alert = WebDriverWait(self.driver, timeout = 10).until(
-           expected_conditions.alert_is_present()
-        )
-        return alert.text
-
-    def accept_alert(self):
-        self.driver.switch_to.alert.accept()
+    # def is_sign_out_displayed(self):
+    #     try:
+    #         WebDriverWait(self.driver, timeout = 10).until(
+    #             expected_conditions.visibility_of_element_located(self.LOG_OUT_BUTTON)
+    #         )
+    #         return True
+    #     except TimeoutException:
+    #         return False
+    #
+    #
+    # def get_alert_text(self):
+    #     alert = WebDriverWait(self.driver, timeout = 10).until(
+    #        expected_conditions.alert_is_present()
+    #     )
+    #     return alert.text
+    #
+    # def accept_alert(self):
+    #     self.driver.switch_to.alert.accept()
